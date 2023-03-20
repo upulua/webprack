@@ -7,4 +7,5 @@ public interface DepartmentDAO extends CommonDAO<Department, Long>{
     List<Department> getAllDepartmentsByName(String depName);
     Department getSingleDepartmentByName(String depName);
 
+    List<Department> getAllSubdepartments(String depName);
 }

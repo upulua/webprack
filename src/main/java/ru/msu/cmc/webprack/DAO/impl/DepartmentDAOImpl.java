@@ -36,7 +36,20 @@ public class DepartmentDAOImpl extends CommonDAOImpl<Department, Long> implement
 
        }
     }
+    @Override
+    public List<Department> getAllSubdepartments(String depName) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Department> q = session.createQuery("FROM Department WHERE name = :param1", Department.class)
+                    .setParameter("param1", depName);
 
+            Long headId = q.getResultList().get(0).getId();
+
+            Query<Department> query = session.createQuery("From Department WHERE head = :headId", Department.class)
+                    .setParameter("headId", headId);
+
+            return query.getResultList().size() == 0 ? null : query.getResultList();
+        }
+    }
     private String likeExpr(String param) {
         return "%" + param + "%";
     }
